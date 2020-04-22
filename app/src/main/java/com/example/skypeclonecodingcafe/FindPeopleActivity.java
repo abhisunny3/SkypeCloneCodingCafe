@@ -30,7 +30,7 @@ public class FindPeopleActivity extends AppCompatActivity {
         findFriendsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
 
-        // test
+        // test ss
     }
 
 

@@ -25,6 +25,9 @@ public class NotificationsAcitivity extends AppCompatActivity {
 
         notificationList = findViewById(R.id.notification_list);
         notificationList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+
+        // stes
     }
 
 

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "825717190529",
+    "firebase_url": "https://skypeclonecodingcafe.firebaseio.com",
+    "project_id": "skypeclonecodingcafe",
+    "storage_bucket": "skypeclonecodingcafe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825717190529:android:98612973d0974cc3e44280",
+        "android_client_info": {
+          "package_name": "com.example.skypeclonecodingcafe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825717190529-t7s61jehna3ujqko7499n38joghreqlf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTFFEZ881vc72R0Q2DkCpzTNixcfAQyLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825717190529-t7s61jehna3ujqko7499n38joghreqlf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

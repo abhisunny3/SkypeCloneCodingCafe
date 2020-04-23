@@ -214,9 +214,9 @@ public class SettingsActivity extends AppCompatActivity {
 
                 if(dataSnapshot.exists()){
 
-                    String image= dataSnapshot.child("image").toString();
-                    String username = dataSnapshot.child("name").toString();
-                    String bio = dataSnapshot.child("status").toString();
+                    String image= dataSnapshot.child("image").getValue().toString();
+                    String username = dataSnapshot.child("name").getValue().toString();
+                    String bio = dataSnapshot.child("status").getValue().toString();
 
                     userBioET.setText(username);
                     userBioET.setText(bio);

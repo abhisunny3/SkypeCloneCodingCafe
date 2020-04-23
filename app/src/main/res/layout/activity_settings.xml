@@ -41,7 +41,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
-        android:hint="Write bio"
+        android:hint="Write your bio"
         android:backgroundTint="@android:color/white"
         android:textColorHint="@android:color/white"
         android:layout_below="@id/username_setting"

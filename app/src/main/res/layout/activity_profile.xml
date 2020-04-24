@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+
+    <ImageView
+        android:id="@+id/background_profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/profile_image"
+        android:scaleType="centerCrop">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/name_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="user name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="28dp"
+        android:maxLines="2"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        />
+
+    <Button
+        android:id="@+id/add_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:text="Add Friend"
+        android:textColor="@android:color/white"
+        android:layout_margin="20dp"
+        android:background="@color/colorPrimary"
+        />
+
+    <Button
+        android:id="@+id/decline_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:text="Cancel Friend Request"
+        android:textColor="@android:color/white"
+        android:layout_margin="20dp"
+        android:background="@color/colorPrimary"
+        />
+
+</RelativeLayout>

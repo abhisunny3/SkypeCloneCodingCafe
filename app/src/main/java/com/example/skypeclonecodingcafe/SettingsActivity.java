@@ -218,7 +218,7 @@ public class SettingsActivity extends AppCompatActivity {
                     String username = dataSnapshot.child("name").getValue().toString();
                     String bio = dataSnapshot.child("status").getValue().toString();
 
-                    userBioET.setText(username);
+                    userNameET.setText(username);
                     userBioET.setText(bio);
 
                     Picasso.get().load(image).placeholder(R.drawable.profile_image).into(profileImageView);

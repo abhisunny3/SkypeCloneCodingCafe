@@ -28,30 +28,39 @@
         android:layout_centerInParent="true"
         />
 
-    <Button
-        android:id="@+id/add_friends"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:textSize="16sp"
-        android:textAllCaps="false"
-        android:text="Add Friend"
-        android:textColor="@android:color/white"
+        android:orientation="vertical"
         android:layout_margin="20dp"
-        android:background="@color/colorPrimary"
-        />
+        android:layout_alignParentBottom="true">
 
-    <Button
-        android:id="@+id/decline_friends"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:textSize="16sp"
-        android:textAllCaps="false"
-        android:text="Cancel Friend Request"
-        android:textColor="@android:color/white"
-        android:layout_margin="20dp"
-        android:background="@color/colorPrimary"
-        />
+        <Button
+            android:id="@+id/add_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:text="Add Friend"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"
+            />
+
+        <Button
+            android:id="@+id/decline_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:text="Cancel Friend Request"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
+
 
 </RelativeLayout>

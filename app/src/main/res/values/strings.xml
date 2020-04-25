@@ -7,5 +7,7 @@
 
     <string name="db_profile_image">Profile Image</string>
     <string name="db_user">Users</string>
+    <string name="db_friends_request">Friend Request</string>
+    <string name="db_contacts">Contacts</string>
 
 </resources>

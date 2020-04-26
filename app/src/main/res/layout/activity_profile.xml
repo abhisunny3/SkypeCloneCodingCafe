@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
+
+
     <ImageView
         android:id="@+id/background_profile_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/profile_image"
-        android:scaleType="centerCrop">
+        android:scaleType="centerCrop"/>
 
-    </ImageView>
 
     <TextView
         android:id="@+id/name_profile"

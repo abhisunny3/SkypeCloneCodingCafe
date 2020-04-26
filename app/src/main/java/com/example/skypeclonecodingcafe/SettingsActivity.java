@@ -4,14 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -26,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -41,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
     private String donwloadUrl;
     private DatabaseReference userRef;
     private ProgressDialog progressDialog;
+    private CustomProgressView progress_bar_load;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,8 @@ public class SettingsActivity extends AppCompatActivity {
         userNameET = findViewById(R.id.username_setting);
         userBioET = findViewById(R.id.bio_setting);
         profileImageView = findViewById(R.id.setting_profile_image);
+
+        progress_bar_load= findViewById(R.id.progress_bar_load);
 
         progressDialog = new ProgressDialog(SettingsActivity.this);
 
@@ -221,7 +233,34 @@ public class SettingsActivity extends AppCompatActivity {
                     userNameET.setText(username);
                     userBioET.setText(bio);
 
-                    Picasso.get().load(image).placeholder(R.drawable.profile_image).into(profileImageView);
+                    RelativeLayout line_first  =findViewById(R.id.line_first);
+
+                  //  Picasso.get().load(image).placeholder(R.drawable.profile_image).into(profileImageView);
+
+
+                    setImage(line_first,image,profileImageView);
+
+                   /* Glide.with(context)
+                            .load(postsClass.getPostImageUrl())
+                            .error(R.color.gray1)
+                            .fitCenter()
+                            //.centerCrop()
+                            .placeholder(R.color.gray1)
+                            .listener(new RequestListener<String, GlideDrawable>() {
+                                @Override
+                                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+
+                                    holder.PostImage.setBackgroundResource(R.color.gray1);
+                                    holder.progressBarLoad.setVisibility(View.GONE);
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                    holder.progressBarLoad.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            }).into(holder.PostImage);*/
 
                 }
 
@@ -234,6 +273,8 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -243,5 +284,41 @@ public class SettingsActivity extends AppCompatActivity {
 
             profileImageView.setImageURI(ImageUri);
         }
+    }
+
+    private void addOrRemoveProperty(View view, int property, boolean flag){
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        if(flag){
+            layoutParams.addRule(property);
+        }else {
+            //layoutParams.removeRule(property);
+        }
+        view.setLayoutParams(layoutParams);
+    }
+
+    private void setImage(RelativeLayout relativeLayout, String image_url,ImageView profileImageView) {
+
+
+
+        progress_bar_load.setVisibility(View.VISIBLE);
+        //progress_bar_load.setColor(R.color.white);
+
+        Picasso.get()
+                .load(image_url)
+                .fit()
+                //.centerCrop()
+                .placeholder(R.drawable.profile_image)
+                .into(profileImageView,new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        progress_bar_load.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        //holder.PostImage.setBackgroundResource(R.color.gray1);
+                        progress_bar_load.setVisibility(View.GONE);
+                    }
+                });
     }
 }

@@ -1,5 +1,6 @@
 package com.example.skypeclonecodingcafe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,12 +8,16 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class CallingActivity extends AppCompatActivity {
 
@@ -79,6 +84,61 @@ public class CallingActivity extends AppCompatActivity {
                 }
 
 
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        userRef.child(receiverUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(!dataSnapshot.hasChild("Calling") && !dataSnapshot.hasChild("Ringing"))
+                {
+                    final HashMap<String,Object> callingInfo = new HashMap<>();
+                  /*  callingInfo.put("uid",senderUserId);
+                    callingInfo.put("name",senderUserName);
+                    callingInfo.put("image",senderUserImage);*/
+                    callingInfo.put("calling",receiverUserId);
+
+                    userRef.child(senderUserId).child("Calling")
+                            .updateChildren(callingInfo)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if(task.isSuccessful()){
+                                        final HashMap<String,Object> ringingInfo = new HashMap<>();
+                                       /* ringingInfo.put("uid",receiverUserId);
+                                        ringingInfo.put("name",receiverUserName);
+                                        ringingInfo.put("image",receiverUserImage);*/
+                                        ringingInfo.put("ringing",senderUserId);
+
+                                        userRef.child(receiverUserId).child("Ringing")
+                                                .updateChildren(ringingInfo)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                                        if(task.isSuccessful()){
+
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                }
+                            });
+
+
+                }
             }
 
             @Override

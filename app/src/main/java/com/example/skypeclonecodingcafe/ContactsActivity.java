@@ -38,7 +38,8 @@ public class ContactsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String currentUserId = "";
     private DatabaseReference contactsRef,usersRef;
-    private String userName,profileImage;
+    private String userName="",profileImage="";
+    private String calledBy="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,9 @@ public class ContactsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
+        checkForReceivingCall();
+
         validateUser();
 
         FirebaseRecyclerOptions<Contacts> options = new FirebaseRecyclerOptions.Builder<Contacts>()
@@ -104,8 +108,6 @@ public class ContactsActivity extends AppCompatActivity {
                             public void onClick(View view) {
                                 Intent intent = new Intent(ContactsActivity.this,CallingActivity.class);
                                 intent.putExtra("visit_user_id",listUserId);
-                                intent.putExtra("profile_image",model.getImage());
-                                intent.putExtra("profile_name",model.getName());
                                 startActivity(intent);
                             }
                         });
@@ -130,6 +132,29 @@ public class ContactsActivity extends AppCompatActivity {
 
         myContactsList.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
+    }
+
+    private void checkForReceivingCall() {
+        usersRef.child(currentUserId)
+                .child("Ringing")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChild("ringing")){
+                            calledBy = dataSnapshot.child("ringing").getValue().toString();
+
+                            Intent intent = new Intent(ContactsActivity.this,CallingActivity.class);
+                            intent.putExtra("visit_user_id",calledBy);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void validateUser() {

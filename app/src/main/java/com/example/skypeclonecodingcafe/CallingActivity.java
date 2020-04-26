@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,11 +32,14 @@ public class CallingActivity extends AppCompatActivity {
 
     private DatabaseReference userRef;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calling);
 
+        mediaPlayer = MediaPlayer.create(this,R.raw.ringing);
 
         senderUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -57,8 +61,33 @@ public class CallingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 checker="clicked";
-
+                mediaPlayer.stop();
                 cancelCallingUser();
+            }
+        });
+
+        acceptCallBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mediaPlayer.stop();
+
+                final HashMap<String,Object> callingPickUp = new HashMap<>();
+                callingPickUp.put("picked","picked");
+
+                userRef.child(senderUserId).child("Ringing")
+                        .updateChildren(callingPickUp)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                                if(task.isSuccessful()){
+                                    Intent intent = new Intent(CallingActivity.this,VideoChatActivity.class);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
+
             }
         });
 
@@ -109,6 +138,8 @@ public class CallingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        mediaPlayer.start();
+
         userRef.child(receiverUserId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -116,6 +147,7 @@ public class CallingActivity extends AppCompatActivity {
 
                 if(!checker.equals("clicked") && !dataSnapshot.hasChild("Calling") && !dataSnapshot.hasChild("Ringing"))
                 {
+
                     final HashMap<String,Object> callingInfo = new HashMap<>();
                   /*  callingInfo.put("uid",senderUserId);
                     callingInfo.put("name",senderUserName);
@@ -165,9 +197,17 @@ public class CallingActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.child(senderUserId).hasChild("Ringing") && !dataSnapshot.child(senderUserId).hasChild("Calling")){
-
                     acceptCallBtn.setVisibility(View.VISIBLE);
                 }
+
+                if(dataSnapshot.child(receiverUserId).child("Ringing").hasChild("picked"))
+                {
+
+                    mediaPlayer.stop();
+                    Intent intent = new Intent(CallingActivity.this,VideoChatActivity.class);
+                    startActivity(intent);
+                }
+
             }
 
             @Override

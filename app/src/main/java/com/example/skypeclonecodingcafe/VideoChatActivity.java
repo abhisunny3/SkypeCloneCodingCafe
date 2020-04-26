@@ -31,9 +31,9 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class VideoChatActivity extends AppCompatActivity
         implements Session.SessionListener, PublisherKit.PublisherListener {
 
-    private static String API_Key ="";
-    private static String SESSION_ID = "";
-    private static String TOKEN = "";
+    private static String API_Key ="46700812";
+    private static String SESSION_ID = "2_MX40NjcwMDgxMn5-MTU4Nzg5OTM0Mzg2NH5uSzZmbjdINkZHa0d3Yld2OWc4ZllhSVV-fg";
+    private static String TOKEN = "T1==cGFydG5lcl9pZD00NjcwMDgxMiZzaWc9ZmNkOGIwYTA2NTUwMDM4NzYxYTVkNTBjN2U0OGI4OTQ3MTVjZjY4ZDpzZXNzaW9uX2lkPTJfTVg0ME5qY3dNRGd4TW41LU1UVTROemc1T1RNME16ZzJOSDV1U3pabWJqZElOa1pIYTBkM1lsZDJPV2M0WmxsaFNWVi1mZyZjcmVhdGVfdGltZT0xNTg3ODk5NDE5Jm5vbmNlPTAuNTQ2MzA3NTIwNDEzNzczNSZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNTkwNDkxNDE2JmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9";
     private static String LOG_TAG = VideoChatActivity.class.getSimpleName();
     private static final  int RC_VIDEO_APP_PERMISSION = 124;
     private DatabaseReference userRef;
@@ -122,6 +122,8 @@ public class VideoChatActivity extends AppCompatActivity
                 });
             }
         });
+
+        requestPermissions();
 
     }
 

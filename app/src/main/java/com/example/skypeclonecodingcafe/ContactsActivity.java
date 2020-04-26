@@ -3,12 +3,25 @@ package com.example.skypeclonecodingcafe;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,11 +35,23 @@ public class ContactsActivity extends AppCompatActivity {
     private RecyclerView myContactsList;
     private ImageView findPeopleBtn;
 
+    private FirebaseAuth mAuth;
+    private String currentUserId = "";
+    private DatabaseReference contactsRef,usersRef;
+    private String userName,profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
+
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUserId = mAuth.getCurrentUser().getUid();
+
+        contactsRef = FirebaseDatabase.getInstance().getReference().child(getString(R.string.db_contacts));
+        usersRef = FirebaseDatabase.getInstance().getReference().child(getString(R.string.db_user));
+
 
          navView = findViewById(R.id.nav_view);
          navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
@@ -44,6 +69,54 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseRecyclerOptions<Contacts> options = new FirebaseRecyclerOptions.Builder<Contacts>()
+                .setQuery(contactsRef.child(currentUserId),Contacts.class)
+                .build();
+
+        FirebaseRecyclerAdapter<Contacts,ContactListViewHolder>  firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Contacts, ContactListViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull ContactListViewHolder holder, int position, @NonNull Contacts contacts) {
+
+                String   listUserId = getRef(position).getKey();
+
+                usersRef.child(listUserId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.exists()){
+
+                            userName =dataSnapshot.child("name").getValue().toString();
+                            profileImage =dataSnapshot.child("image").getValue().toString();
+                            Picasso.get().load(profileImage).into(holder.profileImageView);
+                            holder.userNameTxt.setText(userName);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public ContactListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_design,parent,false);
+                ContactListViewHolder viewHolder = new ContactListViewHolder(view);
+
+                return viewHolder;
+            }
+        };
+
+        myContactsList.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -79,5 +152,20 @@ public class ContactsActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    public static class ContactListViewHolder extends RecyclerView.ViewHolder{
+
+        TextView userNameTxt;
+        Button callBtn;
+        ImageView profileImageView;
+
+        public ContactListViewHolder(@NonNull View itemview) {
+            super(itemview);
+
+            userNameTxt =itemview.findViewById(R.id.name_contacts);
+            callBtn =itemview.findViewById(R.id.call_btn);
+            profileImageView =itemview.findViewById(R.id.imag_contacts);
+        }
+    }
 
 }

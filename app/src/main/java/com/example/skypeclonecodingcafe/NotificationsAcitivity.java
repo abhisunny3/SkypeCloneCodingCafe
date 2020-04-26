@@ -111,12 +111,7 @@ public class NotificationsAcitivity extends AppCompatActivity {
                                             }
                                         });
 
-                                        holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                cancelFriendRequest(listUserId);
-                                            }
-                                        });
+                                        holder.cancelBtn.setOnClickListener(view -> cancelFriendRequest(listUserId));
 
                                     }
 

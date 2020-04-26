@@ -238,7 +238,7 @@ public class SettingsActivity extends AppCompatActivity {
                   //  Picasso.get().load(image).placeholder(R.drawable.profile_image).into(profileImageView);
 
 
-                    setImage(line_first,image,profileImageView);
+                    My.setImage(progress_bar_load,line_first,image,profileImageView);
 
                    /* Glide.with(context)
                             .load(postsClass.getPostImageUrl())
@@ -296,29 +296,5 @@ public class SettingsActivity extends AppCompatActivity {
         view.setLayoutParams(layoutParams);
     }
 
-    private void setImage(RelativeLayout relativeLayout, String image_url,ImageView profileImageView) {
 
-
-
-        progress_bar_load.setVisibility(View.VISIBLE);
-        //progress_bar_load.setColor(R.color.white);
-
-        Picasso.get()
-                .load(image_url)
-                .fit()
-                //.centerCrop()
-                .placeholder(R.drawable.profile_image)
-                .into(profileImageView,new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progress_bar_load.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        //holder.PostImage.setBackgroundResource(R.color.gray1);
-                        progress_bar_load.setVisibility(View.GONE);
-                    }
-                });
-    }
 }

@@ -48,6 +48,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:11.8.0'
     implementation 'com.firebaseui:firebase-ui-database:3.2.2'
 
+    implementation 'com.opentok.android:opentok-android-sdk:2.15.3'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'com.hbb20:ccp:2.1.9'
